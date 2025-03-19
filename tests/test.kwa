@@ -1,0 +1,200 @@
+/* Le fichier de base des tests a été fourni par Pedro BARTOLOMEI PANDOZI, 
+et après j'ai modifié le code pour l'adapter à mon programme */
+
+
+var point p1, p2; 
+var int a, n, counter, fact_global; 
+var pair pa1, pa2;
+var triple t;
+var non_constr nc;
+
+class non_constr {
+  attribute int a;
+}
+
+
+class point {
+    attribute int x;
+    attribute int y;
+
+    method void constructor(int a, int b) {
+        this.x = a;
+        this.y = b;
+    }
+
+    method int somme() {
+        return this.x + this.y;
+    }
+
+    method int test_instr_et_acces_globaux(int z) {
+        var int acc;
+        a = 2;
+        n = 9;
+        acc = 1;
+        while ( n > 0 ) {
+        if (n % 2 != 0) { acc = a*acc; } else {} 
+        a = a*a;
+        n = n/2;
+        }
+        a = 5;
+        return acc;
+    }
+
+    method int test_acces_local() {
+    /* si cette variable a le même nom qu'une globale, on utilise la locale plutôt que la globale */
+        var int a;
+        a = 5;
+        return a;
+    }
+
+    method int factTerminale(int n, int acc) {
+        if (n == 0) { return acc; } 
+        else { return this.factTerminale(n - 1, acc * n); } 
+    }
+
+    method void fact_globale() {
+        if (counter > 0) {
+            fact_global = fact_global * counter;
+            counter = counter - 1;
+            this.fact_globale();
+        } 
+        else { print(fact_global); }
+    }
+
+    method void test_global() { 
+        print(fact_global);
+    }
+
+    method int test_while() {
+      var int i, n;
+      i = 4;
+      n = 1;
+      while (i > 1) {
+        n = n * i;
+        i = i - 1;
+      }
+      return n;
+    }
+
+    method int test_cond() {
+      if (true) {
+          return 5;
+      } else { return 4; }
+     }
+
+    /* Erreurs que le typechecker devrait renvoyer */
+    // Ne doit pas compiler
+    // attend un void, renvoie un int
+    /* method void thing() { 
+      return 1; 
+    } */
+
+    // Ne doit pas compiler
+    // attend un void, renvoie un bool
+    /* method int error1() {
+      return false;
+    } */
+
+    
+    // Ne doit pas compiler
+    // attend un int, reçoit un void
+    /*
+    method void test() { 
+      print(1);
+      return 1; 
+    }
+    */
+
+    // Ne doit pas compiler
+    // return dans boucle while est impossible dans mon programme
+    /* method int test_while() {
+      var int i, n;
+      i = 4;
+      n = 1;
+      while (i > 1) {
+        n = n * i;
+        i = i - 1;
+        return n;
+      }
+    } */
+    
+}
+
+class pair {
+  attribute int x;
+  attribute int y;
+
+  method void constructor(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  method int somme() {
+    return this.x + this.y;
+  }
+}
+
+class triple extends pair {
+  attribute int z;
+
+  method void constructor(int x, int y, int z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
+  method int somme() {
+    return this.x + this.y + this.z;
+  }
+
+  method int produit() {
+    return this.x * this.y * this.z;
+  }
+}
+
+main {
+    a = 10;
+    counter = 5;
+    fact_global = 1;
+    p1 = new point(1, 2);
+    p2 = new point(3, 4);
+
+    pa1 = new pair(0, 0);
+    pa2 = new pair(0, 0);
+
+    t = new triple(2, 2, 3);
+
+    // affiche 1
+    p1.test_global();
+
+    if (p1.somme() > p2.somme()) { print(1); }
+    else { print(0); } // affiche 0 
+    
+    // affiche 512
+    print(p1.test_instr_et_acces_globaux(1));
+
+    // affiche 5
+    print(p1.test_acces_local());
+
+    // affiche 120
+    print(p1.factTerminale(5, 1));
+
+    // affiche 120
+    p1.fact_globale(); 
+
+    /* test extension egalité structurelle */
+    print(pa1 === pa2); // affiche true
+    print(pa1 =/= pa2); // affiche false
+
+    print(t.somme()); // affiche 7
+    print(t.produit()); //affiche 12
+
+    print(p1.test_while()); // affiche 24
+    
+    // Ne devrait pas compiler
+    // Pour tester l'affectation d'une classe sans constructeur
+    /*
+    nc = new non_constr(5);
+    */
+
+}

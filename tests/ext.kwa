@@ -1,0 +1,26 @@
+var point p1, p2;
+var segment s;
+
+class point {
+  attribute int x;
+  attribute int y;
+}
+
+class segment {
+  attribute point p1;
+  attribute point p2;
+}
+
+main {
+  p1 = new point;
+  p2 = new point;
+  s = new segment;
+  s.p1 = p1;
+  s.p2 = p2;
+  p1.x = 1;
+  p2.x = 1;
+  p1.y = 1;
+  p2.y = 2;
+
+  print(p1 =/= p2);
+}

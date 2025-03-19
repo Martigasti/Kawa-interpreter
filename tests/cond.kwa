@@ -1,0 +1,14 @@
+var int x;
+var int y;
+var int i;
+
+main {
+  x = 6;
+  y = 9;
+  i = 0;
+  while (x < y) {
+    x = x + 1;
+    i = i + 1;
+  }
+  return i;
+}

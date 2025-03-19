@@ -1,0 +1,14 @@
+var int x;
+var int y;
+var bool z;
+
+/* Commentaire ne modifie rien, x=5 */
+main {
+  x = 1;
+  y = 6;
+  x = x+2;
+  y = y*(x+4);
+  print(y);
+  z = y < 50;
+  print(z); // Devrait afficher true
+}
